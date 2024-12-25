@@ -23,7 +23,7 @@ jobs:
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: cd back
-        run: cd ..
+        run: cd .. && pwd
 
       # Step 3: Package the repository into a tar.gz file
       - name: Package repository
