@@ -22,12 +22,12 @@ jobs:
         id: date
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
-      - name: cd back
-        run: cd .. && ls
 
       # Step 3: Package the repository into a tar.gz file
       - name: Package repository
         run: |
+          cd ..
+          ls
           tar -czf wordpress_${{ env.date }}.tar.gz WordPress/
           echo "Packaged repository into wordpress_${{ env.date }}.tar.gz"
 
