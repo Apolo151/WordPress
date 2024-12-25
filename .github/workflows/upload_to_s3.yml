@@ -14,6 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: check pwd
+        run: pwd
+
       # Step 2: Get the current date
       - name: Get current date
         id: date
@@ -22,7 +25,7 @@ jobs:
       # Step 3: Package the repository into a tar.gz file
       - name: Package repository
         run: |
-          tar -czf wordpress_${{ env.date }}.tar.gz ./
+          tar -czf wordpress_${{ env.date }}.tar.gz WordPress
           echo "Packaged repository into wordpress_${{ env.date }}.tar.gz"
 
       # Step 4: Configure AWS CLI
