@@ -22,7 +22,7 @@ jobs:
       # Step 3: Package the repository into a tar.gz file
       - name: Package repository
         run: |
-          tar -czvf wordpress_${{ env.date }}.tar.gz ./
+          tar -czf wordpress_${{ env.date }}.tar.gz ./
           echo "Packaged repository into wordpress_${{ env.date }}.tar.gz"
 
       # Step 4: Configure AWS CLI
