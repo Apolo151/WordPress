@@ -1,0 +1,42 @@
+name: Package and Deploy to S3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  package-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Get the current date
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      # Step 3: Package the repository into a tar.gz file
+      - name: Package repository
+        run: |
+          tar -czvf wordpress_${{ env.date }}.tar.gz ./
+          echo "Packaged repository into wordpress_${{ env.date }}.tar.gz"
+
+      # Step 4: Configure AWS CLI
+      - name: Configure AWS CLI
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+          aws configure set region $AWS_REGION
+
+      # Step 5: Upload tar.gz file to S3 bucket
+      - name: Upload to S3
+        run: |
+          aws s3 cp wordpress_${{ env.date }}.tar.gz s3://abdallah-wordpress/wordpress_${{ env.date }}.tar.gz
