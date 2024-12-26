@@ -48,6 +48,6 @@ jobs:
           aws s3 cp wordpress_${{ env.date }}.tar.gz s3://abdallah-wordpress/wordpress_${{ env.date }}.tar.gz
       
       # Step 6: refresh Auto Scaling Group
-      # - name: Refresh Auto Scaling Group
-      #   run: |
-      #     aws autoscaling start-instance-refresh --auto-scaling-group-name abdallah-lemp-ASG2
+      - name: Refresh Auto Scaling Group
+        run: |
+          aws autoscaling start-instance-refresh --auto-scaling-group-name abdallah-lemp-ASG2
