@@ -17,10 +17,9 @@ jobs:
       - name: check pwd
         run: pwd
 
-      # Step 2: Get the current date
-      - name: Get current date
-        id: date
-        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+      - name: Get current date and time
+        id: unique_datetime
+        run: echo "date=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
 
 
       # Step 3: Package the repository into a tar.gz file
@@ -47,3 +46,8 @@ jobs:
         run: |
           cd ..
           aws s3 cp wordpress_${{ env.date }}.tar.gz s3://abdallah-wordpress/wordpress_${{ env.date }}.tar.gz
+      
+      # Step 6: refresh Auto Scaling Group
+      # - name: Refresh Auto Scaling Group
+      #   run: |
+      #     aws autoscaling start-instance-refresh --auto-scaling-group-name abdallah-lemp-ASG2
